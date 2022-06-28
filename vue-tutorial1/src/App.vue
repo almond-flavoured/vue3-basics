@@ -1,16 +1,13 @@
 <template>
 
-  <div class="black-bg" v-if="modal === true">
-    <div class="white-bg">
-      <h4>상세페이지</h4>
-      <p>상세페이지입니다.</p>
-      <button @click="modal = false">닫기</button>
-    </div>
-  </div>
+  <Modal :data="data" :clickedData="clickedData" :modal="modal" />
 
   <div class="menu">
     <a v-for="(a, i) in menus" :key="i">{{ a }}</a>
   </div>
+
+  <Discount/>
+  
 
   <!-- <div v-for="(a, i) in products" :key="i">
     <h4>{{products[i]}}</h4>
@@ -19,7 +16,7 @@
 
   <div v-for="(a, i) in data" :key="i">
     <img :src="data[i].image" alt="room[i]" class="room-img">
-    <h4 @click="modal = true">{{ data[i].title }}</h4>
+    <h4 @click="modal = true, clickedData= i">{{ data[i].title }}</h4>
     <p>{{ data[i].price }}만원</p>
   </div>
 
@@ -39,13 +36,16 @@
 
 <script>
 
-import data from './assets/oneroom.js'
+import data from './assets/oneroom.js';
+import Discount from './Discount.vue';
+import Modal from './Modal.vue';
 
 
 export default {
   name: 'App',
   data() {
     return {
+      clickedData: 0,
       data: data,
       modal: false,
       report: [0, 0, 0],
@@ -67,6 +67,8 @@ export default {
     }
   },
   components: {
+    Discount,
+    Modal
   }
 }
 </script>
@@ -79,6 +81,7 @@ body {
 div {
   box-sizing: border-box;
 }
+
 
 .black-bg {
   width: 100%;
