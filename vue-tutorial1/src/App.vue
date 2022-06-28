@@ -1,12 +1,12 @@
 <template>
 
-  <Modal :data="data" :clickedData="clickedData" :modal="modal" />
+  <Modal @closeModal="modal = false" :data="data" :clickedData="clickedData" :modal="modal" />
 
   <div class="menu">
     <a v-for="(a, i) in menus" :key="i">{{ a }}</a>
   </div>
 
-  <Discount/>
+  <Discount />
   
 
   <!-- <div v-for="(a, i) in products" :key="i">
@@ -14,11 +14,13 @@
     <p>{{i}}만원</p>
   </div> -->
 
-  <div v-for="(a, i) in data" :key="i">
+  <Card @openModal="modal = true; clickedData = $event" v-for="(a, i) in data" :key="i" :data="data[i]" />
+
+  <!-- <div v-for="(a, i) in data" :key="i">
     <img :src="data[i].image" alt="room[i]" class="room-img">
     <h4 @click="modal = true, clickedData= i">{{ data[i].title }}</h4>
-    <p>{{ data[i].price }}만원</p>
-  </div>
+    <p>{{ data[i].price }}원</p>
+  </div> -->
 
   <!-- <div>
     <img src="./assets/room1.jpg" alt="room1" class="room-img">
@@ -39,6 +41,7 @@
 import data from './assets/oneroom.js';
 import Discount from './Discount.vue';
 import Modal from './Modal.vue';
+import Card from './Card.vue';
 
 
 export default {
@@ -68,7 +71,8 @@ export default {
   },
   components: {
     Discount,
-    Modal
+    Modal,
+    Card
   }
 }
 </script>
