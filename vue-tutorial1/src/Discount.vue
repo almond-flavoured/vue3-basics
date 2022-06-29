@@ -1,12 +1,26 @@
 <template>
   <div class="discount">
-    <h4>지금 결제하면 20% 할인</h4>
+    <h4>지금 결제하면 {{ discount }}% 할인</h4>
+    <!-- <button @click="discountMethod">asd</button> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Discount'
+  name: 'Discount',
+  props: {
+    discount: Number,
+  },
+  data() {
+    return {
+      
+    }
+  },
+  methods: {
+    discountMethod() {
+      this.$emit('discount', this.discount)
+    }
+  }
 }
 </script>
 

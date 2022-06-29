@@ -1,8 +1,8 @@
 <template>
   <div>
-    <img :src="data.image" alt="room" class="room-img">
-    <h4 @click="changeModal">{{ data.title }}</h4>
-    <p>{{ data.price }}원</p>
+    <img :src="roomData.image" alt="room" class="room-img">
+    <h4 @click="changeModal">{{ roomData.title }}</h4>
+    <p>{{ roomData.price }}원</p>
   </div>
 </template>
 
@@ -10,11 +10,14 @@
 export default {
   name: 'Card',
   props: {
-    data: Object,
+    roomData: Object,
   },
   methods: {
     changeModal() {
-      this.$emit('openModal', this.data.id)
+      this.$emit('openModal', this.roomData.id);
+    },
+    showData() {
+      console.log(this.roomData);
     }
   }
 }

@@ -1,12 +1,22 @@
 <template>
 
-  <Modal @closeModal="modal = false" :data="data" :clickedData="clickedData" :modal="modal" />
+  <transition name="fade">
+    <Modal @closeModal="modal = false" :roomData="roomData" :clickedData="clickedData" :modal="modal" />
+  </transition>
+
+  <!-- <div class="start" :class="{end: modal}">
+    <Modal @closeModal="modal = false" :data="data" :clickedData="clickedData" :modal="modal" />
+  </div> -->
+
 
   <div class="menu">
     <a v-for="(a, i) in menus" :key="i">{{ a }}</a>
   </div>
 
-  <Discount />
+  <Discount v-if="showDiscount === true" :discount="discount" @discount="handleDiscount" />
+
+  <button @click="priceSort">가격순정렬</button>
+  <button @click="sortBack">되돌리기</button>
   
 
   <!-- <div v-for="(a, i) in products" :key="i">
@@ -14,7 +24,7 @@
     <p>{{i}}만원</p>
   </div> -->
 
-  <Card @openModal="modal = true; clickedData = $event" v-for="(a, i) in data" :key="i" :data="data[i]" />
+  <Card @openModal="modal = true; clickedData = $event" v-for="(a, i) in roomData" :key="i" :roomData="roomData[i]" />
 
   <!-- <div v-for="(a, i) in data" :key="i">
     <img :src="data[i].image" alt="room[i]" class="room-img">
@@ -48,36 +58,114 @@ export default {
   name: 'App',
   data() {
     return {
+      showDiscount: true,
+      originalData: [...data],
       clickedData: 0,
-      data: data,
+      roomData: data,
       modal: false,
       report: [0, 0, 0],
       menus: ["Home", "Shop", "About"],
-      products: ['역삼동원룸', '천호동원룸', '마포구원룸']
+      products: ['역삼동원룸', '천호동원룸', '마포구원룸'],
+      discount: 30,
     }
   },
   methods: {
     increase(e) {
       if (e === 0) {
-        this.report[0]++
+        this.report[0]++;
       }
       if (e === 1) {
-        this.report[1]++
+        this.report[1]++;
       }
       if (e === 2) {
-        this.report[2]++
+        this.report[2]++;
       }
+    },
+    sortBack() {
+      this.roomData = [...this.originalData];
+      console.log('roomdata==================', this.roomData);
+    },
+    priceSort() {
+      this.roomData.sort((a, b) => {
+        return a.price - b.price;
+      })
+      console.log(this.roomData);
+    },
+    // handleDiscount() {
+    //   setTimeout(() => {this.showDiscount = false}, 2000); 
+    // },
+    handleDiscount() {
+      // console.log(d);
+      const decrease = setInterval(() => {
+        if (this.discount === 0) {
+          clearInterval(decrease)
+        } else {
+          this.discount = this.discount - 1
+        }
+        console.log(this.discount)
+      }, 1000)
     }
+  },
+  mounted() {
+    this.handleDiscount()
   },
   components: {
     Discount,
     Modal,
-    Card
+    Card,
   }
 }
 </script>
 
 <style>
+/* .start {
+  opacity: 0;
+  transition: all 1s;
+}
+.end {
+  opacity: 1;
+} */
+
+/* .fade-enter-from {
+ opacity: 0;
+}
+.fade-enter-active {
+  transition: all 1s;
+}
+.fade-enter-to {
+  opacity: 1;
+} */
+
+.fade-enter-from {
+  transform: translateY(-1000px);
+}
+.fade-enter-active {
+  transition: all 1s;
+}
+.fade-enter-to {
+  transform: translateY(0px);
+}
+
+.fade-leave-from {
+  transform: translateY(0px);
+}
+.fade-leave-active {
+  transition: all 1s;
+}
+.fade-leave-to {
+  transform: translateY(-1000px);
+}
+
+/* .fade-leave-from {
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: all 1s;
+}
+.fade-leave-to {
+ opacity: 0;
+} */
+
 body {
   margin: 0;
 }
