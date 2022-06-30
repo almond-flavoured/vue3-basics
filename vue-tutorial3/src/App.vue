@@ -10,8 +10,8 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :instaData="instaData" :step="step" :uploadedImg="uploadedImg" @write="content = $event" />
-  <button :value="count" @click="more">더보기 {{ content }}</button>
+  <Container :instaData="instaData" :step="step" :uploadedImg="uploadedImg" @write="content = $event" :newFilterImg="newFilterImg" />
+  <button :value="count" @click="more">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
@@ -43,9 +43,16 @@ export default {
       count: 0,
       step: 0,
       uploadedImg: '',
-      content: ''
+      content: '',
+      newFilterImg: '',
       // button: 0
     }
+  },
+  mounted() {
+    this.emitter.on('onDisplay', (e) => {
+      console.log(e);
+      this.newFilterImg = e;
+    })
   },
   components: {
     Container
@@ -97,7 +104,7 @@ export default {
         date: "May 15",
         liked: false,
         content: this.content,
-        filter: "perpetua"
+        filter: this.newFilterImg
       }
       this.instaData = [mywriting, ...instaData];
       this.step = 0;

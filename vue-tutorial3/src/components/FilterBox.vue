@@ -1,6 +1,7 @@
 <template>
-  <div :class="`${filter} filter-item`" :style="`background-image: url(${uploadedImg})`">
+  <div :class="`${filter} filter-item`" :style="`background-image: url(${uploadedImg})`" @click="fire">
     <slot></slot>
+    <!-- <button >button</button> -->
   </div> 
 </template>
 
@@ -12,8 +13,8 @@ export default {
     filter: String
   },
   methods: {
-    test() {
-      
+    fire() {
+      this.emitter.emit('onDisplay', this.filter)
     }
   }
 }

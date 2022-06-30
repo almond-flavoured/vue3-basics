@@ -1,11 +1,11 @@
 <template>
   <div>
     <div v-if="step === 0">
-      <Post :instaData="instaData[i]" v-for="(a, i) in instaData" :key="i" />
+      <Post :instaData="instaData[i]" v-for="(a, i) in instaData" :key="i" :newFilterImg="newFilterImg" />
     </div>
 
   <div v-if="step === 1">
-    <div class="upload-image" :style="`background-image: url(${uploadedImg})`"></div>
+    <div :class="`${newFilterImg} upload-image`" :style="`background-image: url(${uploadedImg})`"></div>
     <div class="filters">
       <FilterBox :filter="filter" v-for="filter in filters" :key="filter" :uploadedImg="uploadedImg">
         {{filter}}
@@ -14,7 +14,7 @@
   </div>
 
   <div v-if="step === 2">
-    <div class="upload-image" :style="`background-image: url(${uploadedImg})`"></div>
+    <div :class="`${newFilterImg} upload-image`" :style="`background-image: url(${uploadedImg})`"></div>
     <div class="write">
       <textarea class="write-box" @input="test">write!</textarea>
     </div>
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       text: '',
-      filters: filterData
+      filters: filterData,
     }
   },
   components: {
@@ -49,17 +49,18 @@ export default {
     instaData: Array,
     step: Number,
     uploadedImg: String,
+    newFilterImg: String,
   },
   methods: {
     test(e) {
       this.text = e.target.value
-      this.$emit('write', this.text)
+      this.$emit('write', this.text, this.newFilterImg)
       console.log(this.text)
     }
   },
-  // mounted() {
-  //   console.log(this.text)
-  // }
+  mounted() {
+    
+  }
 }
 </script>
 

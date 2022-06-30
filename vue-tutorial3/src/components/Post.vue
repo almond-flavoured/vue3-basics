@@ -4,7 +4,7 @@
       <div class="profile" :style="{backgroundImage: `url(${instaData.userImage})`}"></div>
       <span class="profile-name">{{instaData.name}}</span>
     </div>
-    <div class="post-body" :style="{backgroundImage: `url(${instaData.postImage})` }"></div>
+    <div :class="`${newFilterImg} post-body`" :style="{backgroundImage: `url(${instaData.postImage})` }"></div>
     <div class="post-content">
       <p>{{instaData.likes}} Likes</p>
       <p><strong>{{instaData.name}}</strong> {{instaData.content}}</p>
@@ -18,7 +18,8 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Post',
   props: {
-    instaData: Object
+    instaData: Object,
+    newFilterImg: String
   }
 }
 </script>
