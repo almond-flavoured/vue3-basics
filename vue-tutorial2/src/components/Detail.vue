@@ -1,8 +1,8 @@
 <template>
+	$route.
   <div>
-    <h4>상세페이지</h4>
-		<h5>글제목</h5>
-		<p>글설명</p>
+		<h5>{{ blogData.title }}</h5>
+		<p>{{ blogData.content }}</p>
 	</div>
 </template>
 
@@ -10,7 +10,7 @@
 export default {
 	name: 'DetailVue',
 	props: {
-    
+    blogData: Object
   }
 
 }
