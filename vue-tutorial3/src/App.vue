@@ -1,31 +1,32 @@
 <template>
 <div class="header">
     <ul class="header-button-left">
-      <li>Cancel</li>
+      <li @click="step--">Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="step === 1" @click="step++">Next</li>
+      <li v-if="step === 2" @click="publish" >발행</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :instaData="instaData" />
-  <button :value="count" @click="more">더보기</button>
+  <Container :instaData="instaData" :step="step" :uploadedImg="uploadedImg" @write="content = $event" />
+  <button :value="count" @click="more">더보기 {{ content }}</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" accept="image/*" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
 
-  <div>내용0</div>
-  <div>내용1</div>
-  <div>내용2</div>
-  <button>버튼0</button>
-  <button>버튼1</button>
-  <button>버튼2</button>
-  <div style="margin-top: 500px"></div>
+  <!-- <div v-if="button === 0">내용0</div>
+  <div v-else-if="button === 1">내용1</div>
+  <div v-else>내용2</div>
+  <button @click="button = 0">버튼0</button>
+  <button @click="button = 1">버튼1</button>
+  <button @click="button = 2">버튼2</button>
+  <div style="margin-top: 500px"></div> -->
  
 </template>
 
@@ -40,12 +41,20 @@ export default {
     return {
       instaData,
       count: 0,
+      step: 0,
+      uploadedImg: '',
+      content: ''
+      // button: 0
     }
   },
   components: {
     Container
   },
   methods: {
+    test() {
+      // console.log(q)
+      // this.content = q;
+    },
     async more(e) {
       console.log(e.target.value)
       try {
@@ -57,7 +66,6 @@ export default {
           return alert('게시물이 존재하지 않음')
       }
       this.count = this.count + 1;
-      
       // if (this.count === 0) {
       //   const more = await axios.get('https://codingapple1.github.io/vue/more0.json');
       //   console.log(more.data)
@@ -69,7 +77,40 @@ export default {
       // } else {
       //   alert('게시물이 존재하지 않음')
       // }
+    },
+    upload(e) {
+      const file = e.target.files;
+      console.log(file[0].type);
+      const imgUrl = URL.createObjectURL(file[0]);
+      // const split = imgUrl.slice(5);
+      // console.log(typeof split);
+      this.uploadedImg = imgUrl;
+      console.log(this.uploadedImg)
+      this.step = 1;
+    },
+    publish() {
+      const mywriting = {
+        name: "Kim Hyun",
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: this.uploadedImg,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.content,
+        filter: "perpetua"
+      }
+      this.instaData = [mywriting, ...instaData];
+      this.step = 0;
+    },
+    sendEvent() {
+      this.$emit('update')
     }
+    // check(e) {
+    //   console.log(e.target.value)
+    //   this.button = Number(e.target.value)
+    //   console.log(typeof this.button)
+    //   // e.target.firstChild
+    // }
   }
 }
 </script>
