@@ -9,6 +9,11 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
+  
+  <h4>안녕 {{$store.state.name}}</h4>
+  <h4>나이 {{$store.state.age}}</h4>
+  <button @click="$store.commit('handleAge', 10)">나이버튼</button>
+  <button @click="$store.commit('handleName')">버튼</button>
 
   <Container :instaData="instaData" :step="step" :uploadedImg="uploadedImg" @write="content = $event" :newFilterImg="newFilterImg" />
   <button :value="count" @click="more">더보기</button>
