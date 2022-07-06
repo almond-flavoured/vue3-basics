@@ -46,7 +46,7 @@ export default {
     return {
       instaData,
       count: 0,
-      step: 0,
+      step: 3,
       uploadedImg: '',
       content: '',
       newFilterImg: '',
@@ -60,7 +60,7 @@ export default {
     })
   },
   components: {
-    Container
+    Container,
   },
   methods: {
     test() {

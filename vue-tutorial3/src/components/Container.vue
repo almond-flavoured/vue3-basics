@@ -21,6 +21,10 @@
   </div>
   </div>
 
+  <div v-if="step === 3">
+    <MyPage :one="1" />
+  </div>
+
 
 
 
@@ -29,7 +33,9 @@
 <script>
 import Post from './Post.vue';
 import FilterBox from './FilterBox.vue';
-import filterData from '../assets/filterData.js'
+import filterData from '../assets/filterData.js';
+import MyPage from './MyPage.vue';
+
 
 
 export default {
@@ -43,7 +49,8 @@ export default {
   },
   components: {
     Post,
-    FilterBox
+    FilterBox,
+    MyPage
   },
   props: {
     instaData: Array,
@@ -53,9 +60,9 @@ export default {
   },
   methods: {
     test(e) {
-      this.text = e.target.value
-      this.$emit('write', this.text, this.newFilterImg)
-      console.log(this.text)
+      this.text = e.target.value;
+      this.$emit('write', this.text, this.newFilterImg);
+      console.log(this.text);
     }
   },
   mounted() {
